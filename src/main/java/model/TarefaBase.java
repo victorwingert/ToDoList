@@ -2,7 +2,7 @@ package model;
 
 public abstract class TarefaBase {
     
-    // Class abstrata que possui o basico que uma Tarefa deve ter
+    // Classe abstrata que possui o basico que uma Tarefa deve ter
     
     private int id;
     private String descricao;
