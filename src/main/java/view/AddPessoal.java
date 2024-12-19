@@ -1,6 +1,8 @@
 package view;
 
 import controller.GerenciavelController;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import model.TarefaPessoal;
 
 public class AddPessoal extends javax.swing.JDialog {
@@ -29,13 +31,13 @@ public class AddPessoal extends javax.swing.JDialog {
         jLabel5 = new javax.swing.JLabel();
         id = new javax.swing.JTextField();
         nome = new javax.swing.JTextField();
-        prioridade = new javax.swing.JTextField();
-        status = new javax.swing.JTextField();
         add = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         anotacoes = new javax.swing.JTextField();
         dataLembrete = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
+        prioridade = new javax.swing.JComboBox<>();
+        status = new javax.swing.JComboBox<>();
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
@@ -60,6 +62,10 @@ public class AddPessoal extends javax.swing.JDialog {
 
         jLabel7.setText("Data Lembrete");
 
+        prioridade.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Baixa", "Média", "Alta" }));
+
+        status.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pendente", "Concluído" }));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -67,34 +73,32 @@ public class AddPessoal extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel2))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(nome, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 327, Short.MAX_VALUE)
-                            .addComponent(id)))
-                    .addGroup(layout.createSequentialGroup()
                         .addGap(160, 160, 160)
-                        .addComponent(add, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addComponent(add, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(prioridade, javax.swing.GroupLayout.PREFERRED_SIZE, 327, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(29, 29, 29)
+                        .addComponent(prioridade, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel1)
+                                    .addComponent(jLabel2))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(nome, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 327, Short.MAX_VALUE)
+                                    .addComponent(id)))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel5)
                                     .addComponent(jLabel6))
                                 .addGap(27, 27, 27)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(status)
-                                    .addComponent(anotacoes)))
+                                    .addComponent(anotacoes)
+                                    .addComponent(status, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addComponent(jLabel7)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -139,11 +143,25 @@ public class AddPessoal extends javax.swing.JDialog {
     private void addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addActionPerformed
         String id = this.id.getText();
         String nome = this.nome.getText();
-        String prioridade = this.prioridade.getText();
+        String prioridade = this.prioridade.getSelectedItem().toString();
         String categoria = "Pessoal";
-        String status = this.status.getText();
+        String status = this.status.getSelectedItem().toString();
         String anotacoes = this.anotacoes.getText();
         String dataLembrete = this.dataLembrete.getText();
+
+        String dateRegex = "^(0[1-9]|[1-2][0-9]|3[0-1])/(0[1-9]|1[0-2])/\\d{4}$";
+        Pattern pattern = Pattern.compile(dateRegex);
+        Matcher matcher = pattern.matcher(dataLembrete);
+
+        if (!matcher.matches()) {
+            javax.swing.JOptionPane.showMessageDialog(
+                    this,
+                    "Data inválida! O formato deve ser dd/MM/YYYY.",
+                    "Erro",
+                    javax.swing.JOptionPane.ERROR_MESSAGE
+            );
+            return;
+        }
 
         TarefaPessoal tarefaPessoal = new TarefaPessoal(Integer.parseInt(id), nome, categoria, prioridade, status);
         tarefaPessoal.setAnotacoes(anotacoes);
@@ -208,7 +226,7 @@ public class AddPessoal extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JTextField nome;
-    private javax.swing.JTextField prioridade;
-    private javax.swing.JTextField status;
+    private javax.swing.JComboBox<String> prioridade;
+    private javax.swing.JComboBox<String> status;
     // End of variables declaration//GEN-END:variables
 }

@@ -28,13 +28,13 @@ public class AddProfissional extends javax.swing.JDialog {
         jLabel5 = new javax.swing.JLabel();
         id = new javax.swing.JTextField();
         nome = new javax.swing.JTextField();
-        prioridade = new javax.swing.JTextField();
         add = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         prazo = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
-        status = new javax.swing.JTextField();
         responsavel = new javax.swing.JTextField();
+        prioridade = new javax.swing.JComboBox<>();
+        status = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -57,6 +57,10 @@ public class AddProfissional extends javax.swing.JDialog {
 
         jLabel7.setText("Prazo");
 
+        prioridade.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Baixa", "Média", "Alta" }));
+
+        status.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pendente", "Concluído" }));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -72,7 +76,8 @@ public class AddProfissional extends javax.swing.JDialog {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(prazo)
-                            .addComponent(responsavel)))
+                            .addComponent(responsavel)
+                            .addComponent(status, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(160, 160, 160)
                         .addComponent(add, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -87,8 +92,7 @@ public class AddProfissional extends javax.swing.JDialog {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(nome)
                             .addComponent(id)
-                            .addComponent(prioridade)
-                            .addComponent(status))))
+                            .addComponent(prioridade, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -129,9 +133,9 @@ public class AddProfissional extends javax.swing.JDialog {
     private void addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addActionPerformed
         String id = this.id.getText();
         String nome = this.nome.getText();
-        String prioridade = this.prioridade.getText();
+        String prioridade = this.prioridade.getSelectedItem().toString();
         String categoria = "Profissional"; // Categoria fixada como Profissional
-        String status = this.status.getText();
+        String status = this.status.getSelectedItem().toString();
         String responsavel = this.responsavel.getText();
         String prazo = this.prazo.getText();
 
@@ -194,8 +198,8 @@ public class AddProfissional extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JTextField nome;
     private javax.swing.JTextField prazo;
-    private javax.swing.JTextField prioridade;
+    private javax.swing.JComboBox<String> prioridade;
     private javax.swing.JTextField responsavel;
-    private javax.swing.JTextField status;
+    private javax.swing.JComboBox<String> status;
     // End of variables declaration//GEN-END:variables
 }
