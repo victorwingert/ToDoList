@@ -1,7 +1,6 @@
 package view;
 
-import controller.AddPessoalController;
-import controller.AddProfissionalController;
+import controller.AddController;
 import controller.EditController;
 import controller.RemoveController;
 import controller.TableController;
@@ -12,14 +11,14 @@ import javax.swing.table.DefaultTableModel;
 public class Main extends javax.swing.JFrame {
 
     private TableController tableController = new TableController();
-    private AddPessoalController addController;
-    private AddProfissionalController addProfissionalController;
+    private AddController addController;
     private RemoveController removeController;
     private EditController editController;
     private VerController verController;
-    private AddPessoal addDialog;
+    private AddPessoal addDialogPessoal;
     private AddProfissional addDialogProfissional;
-    private Edit editDialog;
+    private EditPessoal editDialogPessoal;
+    private EditProfissional editDialogProfissional;
     private TipoTarefa tipoTarefa;
     private VerPessoal verPessoal;
     private VerProfissional verProfissional;
@@ -31,16 +30,14 @@ public class Main extends javax.swing.JFrame {
 
         tipoTarefa = new TipoTarefa(this, true);
 
-        addController = new AddPessoalController(this);
-        addDialog = new AddPessoal(this, true, addController);
-        
-        addProfissionalController = new AddProfissionalController(this);
-        addDialogProfissional = new AddProfissional(this, true, addProfissionalController);
+        addController = new AddController(this);
+        addDialogPessoal = new AddPessoal(this, true, addController);
 
         removeController = new RemoveController(this);
 
         editController = new EditController(this);
-        editDialog = new Edit(this, true, editController);
+        editDialogPessoal = new EditPessoal(this, true, editController);
+        editDialogProfissional = new EditProfissional(this, true, editController);
 
         verController = new VerController(this);
         verPessoal = new VerPessoal(this, true, verController);
@@ -73,13 +70,13 @@ public class Main extends javax.swing.JFrame {
         return jTable;
     }
 
-    public Edit getEditDialog() {
-        return editDialog;
+    public EditPessoal getEditDialog() {
+        return editDialogPessoal;
     }
 
     public void addBase() {
-        addDialog.setLocationRelativeTo(this);
-        addDialog.setVisible(true);
+        addDialogPessoal.setLocationRelativeTo(this);
+        addDialogPessoal.setVisible(true);
     }
 
     public void addProfissional() {
@@ -87,18 +84,51 @@ public class Main extends javax.swing.JFrame {
         addDialogProfissional.setVisible(true);
     }
 
-    public void ver() {
+    public TipoTarefa getTipoTarefa() {
+        return tipoTarefa;
+    }
+
+    private void ver() {
         int selectedRow = jTable.getSelectedRow();
-        DefaultTableModel model = (DefaultTableModel) jTable.getModel();
-        String categoria = model.getValueAt(selectedRow, 2).toString();
-        
-        if(categoria.equals("Pessoal")) {
-            verPessoal.setLocationRelativeTo(this);
-            verPessoal.getVerController().fillLabelsPessoal();
+
+        if (selectedRow != -1) {
+            DefaultTableModel model = (DefaultTableModel) jTable.getModel();
+            String categoria = model.getValueAt(selectedRow, 2).toString();
+
+            if (categoria.equals("Pessoal")) {
+                verPessoal.setLocationRelativeTo(this);
+                verPessoal.getVerController().fillLabelsPessoal();
+            } else {
+                verProfissional.setLocationRelativeTo(this);
+                verProfissional.getVerController().fillLabelsProfissional();
+            }
         } else {
-            verProfissional.setLocationRelativeTo(this);
-            verProfissional.getVerController().fillLabelsProfissional();
+            javax.swing.JOptionPane.showMessageDialog(this, "Nenhuma linha selecionada!", "Erro", javax.swing.JOptionPane.ERROR_MESSAGE);
+
         }
+    }
+
+    private void editar() {
+        int selectedRow = jTable.getSelectedRow();
+
+        if (selectedRow != -1) {
+            DefaultTableModel model = (DefaultTableModel) jTable.getModel();
+            String categoria = model.getValueAt(selectedRow, 2).toString();
+
+            if (categoria.equals("Pessoal")) {
+                editDialogPessoal.setLocationRelativeTo(this);
+                editDialogPessoal.getEditController().fillFieldsFromSelectedRowPessoal(editDialogPessoal);
+            } else {
+                editDialogProfissional.setLocationRelativeTo(this);
+                editDialogProfissional.getEditController().fillFieldsFromSelectedRowProfissional(editDialogProfissional);
+            }
+        } else {
+            javax.swing.JOptionPane.showMessageDialog(this, "Nenhuma linha selecionada!", "Erro", javax.swing.JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    public EditProfissional getEditDialogProfissional() {
+        return editDialogProfissional;
     }
 
     @SuppressWarnings("unchecked")
@@ -195,9 +225,11 @@ public class Main extends javax.swing.JFrame {
         tipoTarefa.setVisible(true);
         if (tipoTarefa.getTipoTarefa() == 1) {
             addBase();
-        } else {
+        }
+        if (tipoTarefa.getTipoTarefa() == 2)
             addProfissional();
-        };
+        else
+            tipoTarefa.dispose();
     }//GEN-LAST:event_addActionPerformed
 
     private void removeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeActionPerformed
@@ -205,8 +237,7 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_removeActionPerformed
 
     private void editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editActionPerformed
-        editDialog.setLocationRelativeTo(this);
-        editDialog.getEditController().fillFieldsFromSelectedRow(editDialog);
+        editar();
     }//GEN-LAST:event_editActionPerformed
 
     private void verActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_verActionPerformed

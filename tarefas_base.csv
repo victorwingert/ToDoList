@@ -3,5 +3,4 @@ ID,Nome,Categoria,Prioridade,Status
 2,Revisar relatório,Profissional,Média,Concluído
 3,a,Pessoal,Média,Pendente
 4,Construir casa,Profissional,Baixa,Pendente
-5,Comer,Profissional,Baixa,Pendente
-6,Lavar roupa,Pessoal,Média,Pendente
+6,Lavar,Pessoal,Média,Pendente

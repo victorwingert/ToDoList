@@ -1,16 +1,27 @@
 package view;
 
 public class TipoTarefa extends javax.swing.JDialog {
-    
+
     private int tipoTarefa;
 
     public TipoTarefa(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+
+        this.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent e) {
+                tipoTarefa = 0;
+            }
+        });
     }
 
     public int getTipoTarefa() {
         return tipoTarefa;
+    }
+
+    public void setTipoTarefa(int tipoTarefa) {
+        this.tipoTarefa = tipoTarefa;
     }
 
     @SuppressWarnings("unchecked")

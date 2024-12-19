@@ -1,12 +1,12 @@
 package view;
 
-import controller.AddProfissionalController;
+import controller.AddController;
 
 public class AddProfissional extends javax.swing.JDialog {
 
-    private AddProfissionalController addController;
+    private AddController addController;
 
-    public AddProfissional(java.awt.Frame parent, boolean modal, AddProfissionalController addController) {
+    public AddProfissional(java.awt.Frame parent, boolean modal, AddController addController) {
         super(parent, modal);
         this.addController = addController;
         initComponents();
@@ -134,7 +134,7 @@ public class AddProfissional extends javax.swing.JDialog {
         String responsavel = this.responsavel.getText();
         String prazo = this.prazo.getText();
 
-        addController.add(id, nome, categoria, prioridade, status, responsavel, prazo);
+        addController.addProfissional(id, nome, categoria, prioridade, status, responsavel, prazo);
 
         dispose();
     }//GEN-LAST:event_addActionPerformed

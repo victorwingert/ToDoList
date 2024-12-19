@@ -22,17 +22,30 @@ public class RemoveController {
             DefaultTableModel model = (DefaultTableModel) jTable.getModel();
             String selectedId = model.getValueAt(selectedRow, 0).toString();
 
-            String csvFile = "data.csv";
+           String baseCsvFile = "tarefas_base.csv";
+            List<String[]> baseData = CSVFileController.readCSV(baseCsvFile);
 
-            List<String[]> data = CSVFileController.readCSV(csvFile);
+            baseData.removeIf(row -> row[0].equals(selectedId));
+            CSVFileController.writeCSV(baseCsvFile, baseData);
 
-            data.removeIf(row -> row[0].equals(selectedId));
+            String categoria = model.getValueAt(selectedRow, 2).toString();
 
-            CSVFileController.writeCSV(csvFile, data);
+            if (categoria.equals("Profissional")) {
+                String profCsvFile = "tarefas_profissionais.csv";
+                List<String[]> profData = CSVFileController.readCSV(profCsvFile);
+                profData.removeIf(row -> row[0].equals(selectedId));
+                CSVFileController.writeCSV(profCsvFile, profData);
+            } else if (categoria.equals("Pessoal")) {
+                String pessoalCsvFile = "tarefas_pessoais.csv";
+                List<String[]> pessoalData = CSVFileController.readCSV(pessoalCsvFile);
+                pessoalData.removeIf(row -> row[0].equals(selectedId));
+                CSVFileController.writeCSV(pessoalCsvFile, pessoalData);
+            }
 
             main.updateTable();
         } else {
             javax.swing.JOptionPane.showMessageDialog(main, "Nenhuma linha selecionada!", "Erro", javax.swing.JOptionPane.ERROR_MESSAGE);
         }
     }
+
 }
