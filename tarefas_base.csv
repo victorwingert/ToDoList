@@ -1,10 +1,5 @@
-ID,Nome,Categoria,Prioridade,Status
 1,Fazer exercícios,Pessoal,Alta,Pendente
 2,Revisar relatório,Profissional,Média,Concluído
-3,a,Pessoal,Média,Pendente
 6,Lavar,Pessoal,Média,Pendente
-7,Olá,Pessoal,Alta,Pendente
-8,testeeee,Pessoal,baixa,pendente
 9,Ir no mercado,Pessoal,Média,Pendente
-10,c,Profissional,Alta,Concluído
 11,Estudar OO,Pessoal,Média,Pendente
