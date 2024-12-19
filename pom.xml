@@ -9,7 +9,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>22</maven.compiler.source>
         <maven.compiler.target>22</maven.compiler.target>
-        <exec.mainClass>application.ToDoList</exec.mainClass>
+        <exec.mainClass>view.Main</exec.mainClass>
     </properties>
     <build>
         <plugins>
@@ -19,7 +19,7 @@
                     <archive>
                         <manifest>
 
-                            <mainClass>application.ToDoList</mainClass>
+                            <mainClass>view.Main</mainClass>
 
                         </manifest>
                     </archive>

@@ -1,33 +1,58 @@
 package view;
 
-import controller.AddController;
+import controller.AddPessoalController;
+import controller.AddProfissionalController;
 import controller.EditController;
 import controller.RemoveController;
 import controller.TableController;
+import controller.VerController;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 public class Main extends javax.swing.JFrame {
 
     private TableController tableController = new TableController();
-    private AddController addController;
+    private AddPessoalController addController;
+    private AddProfissionalController addProfissionalController;
     private RemoveController removeController;
     private EditController editController;
-    private Add addDialog;
+    private VerController verController;
+    private AddPessoal addDialog;
+    private AddProfissional addDialogProfissional;
     private Edit editDialog;
+    private TipoTarefa tipoTarefa;
+    private VerPessoal verPessoal;
+    private VerProfissional verProfissional;
 
     public Main() {
         initComponents();
         configureTable();
         updateTable();
 
-        addController = new AddController(this);
-        addDialog = new Add(this, true, addController);
+        tipoTarefa = new TipoTarefa(this, true);
+
+        addController = new AddPessoalController(this);
+        addDialog = new AddPessoal(this, true, addController);
         
+        addProfissionalController = new AddProfissionalController(this);
+        addDialogProfissional = new AddProfissional(this, true, addProfissionalController);
+
         removeController = new RemoveController(this);
-        
+
         editController = new EditController(this);
         editDialog = new Edit(this, true, editController);
+
+        verController = new VerController(this);
+        verPessoal = new VerPessoal(this, true, verController);
+        verProfissional = new VerProfissional(this, true, verController);
+    }
+
+    public VerPessoal getVerPessoal() {
+        return verPessoal;
+    }
+
+    public VerProfissional getVerProfissional() {
+        return verProfissional;
     }
 
     public void configureTable() {
@@ -41,7 +66,7 @@ public class Main extends javax.swing.JFrame {
     public void updateTable() {
         DefaultTableModel model = (DefaultTableModel) jTable.getModel();
         model.setRowCount(0);
-        tableController.populateTable("data.csv", model);
+        tableController.populateTable("tarefas_base.csv", model);
     }
 
     public JTable getjTable() {
@@ -50,6 +75,30 @@ public class Main extends javax.swing.JFrame {
 
     public Edit getEditDialog() {
         return editDialog;
+    }
+
+    public void addBase() {
+        addDialog.setLocationRelativeTo(this);
+        addDialog.setVisible(true);
+    }
+
+    public void addProfissional() {
+        addDialogProfissional.setLocationRelativeTo(this);
+        addDialogProfissional.setVisible(true);
+    }
+
+    public void ver() {
+        int selectedRow = jTable.getSelectedRow();
+        DefaultTableModel model = (DefaultTableModel) jTable.getModel();
+        String categoria = model.getValueAt(selectedRow, 2).toString();
+        
+        if(categoria.equals("Pessoal")) {
+            verPessoal.setLocationRelativeTo(this);
+            verPessoal.getVerController().fillLabelsPessoal();
+        } else {
+            verProfissional.setLocationRelativeTo(this);
+            verProfissional.getVerController().fillLabelsProfissional();
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -62,6 +111,7 @@ public class Main extends javax.swing.JFrame {
         add = new javax.swing.JButton();
         remove = new javax.swing.JButton();
         edit = new javax.swing.JButton();
+        ver = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -107,6 +157,15 @@ public class Main extends javax.swing.JFrame {
         });
         botoes.add(edit);
 
+        ver.setText("Ver");
+        ver.setPreferredSize(new java.awt.Dimension(90, 30));
+        ver.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                verActionPerformed(evt);
+            }
+        });
+        botoes.add(ver);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -132,8 +191,13 @@ public class Main extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addActionPerformed
-        addDialog.setLocationRelativeTo(this);
-        addDialog.setVisible(true);
+        tipoTarefa.setLocationRelativeTo(this);
+        tipoTarefa.setVisible(true);
+        if (tipoTarefa.getTipoTarefa() == 1) {
+            addBase();
+        } else {
+            addProfissional();
+        };
     }//GEN-LAST:event_addActionPerformed
 
     private void removeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeActionPerformed
@@ -144,6 +208,10 @@ public class Main extends javax.swing.JFrame {
         editDialog.setLocationRelativeTo(this);
         editDialog.getEditController().fillFieldsFromSelectedRow(editDialog);
     }//GEN-LAST:event_editActionPerformed
+
+    private void verActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_verActionPerformed
+        ver();
+    }//GEN-LAST:event_verActionPerformed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -185,5 +253,6 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane;
     private javax.swing.JTable jTable;
     private javax.swing.JButton remove;
+    private javax.swing.JButton ver;
     // End of variables declaration//GEN-END:variables
 }

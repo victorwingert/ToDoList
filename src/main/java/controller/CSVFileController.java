@@ -24,21 +24,25 @@ public class CSVFileController {
     }
 
     public static void addCSV(String filePath, String[] newRow) {
-        try (FileWriter fw = new FileWriter(filePath, true)) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath, true))) {
             StringBuilder sb = new StringBuilder();
+
             for (int i = 0; i < newRow.length; i++) {
                 sb.append(newRow[i]);
                 if (i < newRow.length - 1) {
                     sb.append(",");
                 }
             }
+
             sb.append("\n");
-            fw.write(sb.toString());
+            
+            bw.write(sb.toString());
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
+    // Reescreve o CSV com uma lista de dados
     public static void writeCSV(String filePath, List<String[]> data) {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath))) {
             for (String[] row : data) {
