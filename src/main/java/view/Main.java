@@ -1,8 +1,7 @@
 package view;
 
-import controller.AddController;
+import controller.GerenciavelController;
 import controller.EditController;
-import controller.RemoveController;
 import controller.TableController;
 import controller.VerController;
 import javax.swing.JTable;
@@ -11,8 +10,7 @@ import javax.swing.table.DefaultTableModel;
 public class Main extends javax.swing.JFrame {
 
     private TableController tableController = new TableController();
-    private AddController addController;
-    private RemoveController removeController;
+    private GerenciavelController gerenciavelController;
     private EditController editController;
     private VerController verController;
     private AddPessoal addDialogPessoal;
@@ -30,10 +28,9 @@ public class Main extends javax.swing.JFrame {
 
         tipoTarefa = new TipoTarefa(this, true);
 
-        addController = new AddController(this);
-        addDialogPessoal = new AddPessoal(this, true, addController);
-
-        removeController = new RemoveController(this);
+        gerenciavelController = new GerenciavelController(this);
+        addDialogPessoal = new AddPessoal(this, true, gerenciavelController);
+        addDialogProfissional = new AddProfissional(this, true, gerenciavelController);
 
         editController = new EditController(this);
         editDialogPessoal = new EditPessoal(this, true, editController);
@@ -233,7 +230,7 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_addActionPerformed
 
     private void removeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeActionPerformed
-        removeController.remove();
+        gerenciavelController.remover();
     }//GEN-LAST:event_removeActionPerformed
 
     private void editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editActionPerformed

@@ -1,14 +1,15 @@
 package view;
 
-import controller.AddController;
+import controller.GerenciavelController;
+import model.TarefaProfissional;
 
 public class AddProfissional extends javax.swing.JDialog {
 
-    private AddController addController;
+    private GerenciavelController gerenciavelController;
 
-    public AddProfissional(java.awt.Frame parent, boolean modal, AddController addController) {
+    public AddProfissional(java.awt.Frame parent, boolean modal, GerenciavelController addController) {
         super(parent, modal);
-        this.addController = addController;
+        this.gerenciavelController = addController;
         initComponents();
     }
 
@@ -129,12 +130,16 @@ public class AddProfissional extends javax.swing.JDialog {
         String id = this.id.getText();
         String nome = this.nome.getText();
         String prioridade = this.prioridade.getText();
-        String categoria = "Profissional";
+        String categoria = "Profissional"; // Categoria fixada como Profissional
         String status = this.status.getText();
         String responsavel = this.responsavel.getText();
         String prazo = this.prazo.getText();
 
-        addController.addProfissional(id, nome, categoria, prioridade, status, responsavel, prazo);
+        TarefaProfissional tarefaProfissional = new TarefaProfissional(Integer.parseInt(id), nome, categoria, prioridade, status);
+        tarefaProfissional.setResponsavel(responsavel);
+        tarefaProfissional.setPrazoEntrega(prazo);
+
+        gerenciavelController.adicionar(tarefaProfissional);
 
         dispose();
     }//GEN-LAST:event_addActionPerformed

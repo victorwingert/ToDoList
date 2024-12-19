@@ -1,14 +1,15 @@
 package view;
 
-import controller.AddController;
+import controller.GerenciavelController;
+import model.TarefaPessoal;
 
 public class AddPessoal extends javax.swing.JDialog {
-    
-    private AddController addController;
 
-    public AddPessoal(java.awt.Frame parent, boolean modal, AddController addController) {
+    private GerenciavelController gerenciavelController;
+
+    public AddPessoal(java.awt.Frame parent, boolean modal, GerenciavelController addController) {
         super(parent, modal);
-        this.addController = addController;
+        this.gerenciavelController = addController;
         initComponents();
     }
 
@@ -21,6 +22,7 @@ public class AddPessoal extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jComboBox1 = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -34,6 +36,8 @@ public class AddPessoal extends javax.swing.JDialog {
         anotacoes = new javax.swing.JTextField();
         dataLembrete = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -141,7 +145,11 @@ public class AddPessoal extends javax.swing.JDialog {
         String anotacoes = this.anotacoes.getText();
         String dataLembrete = this.dataLembrete.getText();
 
-        addController.addPessoal(id, nome, categoria, prioridade, status, anotacoes, dataLembrete);
+        TarefaPessoal tarefaPessoal = new TarefaPessoal(Integer.parseInt(id), nome, categoria, prioridade, status);
+        tarefaPessoal.setAnotacoes(anotacoes);
+        tarefaPessoal.setDataLembrete(dataLembrete);
+
+        gerenciavelController.adicionar(tarefaPessoal);
 
         dispose();
     }//GEN-LAST:event_addActionPerformed
@@ -192,6 +200,7 @@ public class AddPessoal extends javax.swing.JDialog {
     private javax.swing.JTextField anotacoes;
     private javax.swing.JTextField dataLembrete;
     private javax.swing.JTextField id;
+    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
