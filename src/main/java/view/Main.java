@@ -1,6 +1,7 @@
 package view;
 
 import controller.AddController;
+import controller.EditController;
 import controller.RemoveController;
 import controller.TableController;
 import javax.swing.JTable;
@@ -11,7 +12,9 @@ public class Main extends javax.swing.JFrame {
     private TableController tableController = new TableController();
     private AddController addController;
     private RemoveController removeController;
+    private EditController editController;
     private Add addDialog;
+    private Edit editDialog;
 
     public Main() {
         initComponents();
@@ -20,7 +23,11 @@ public class Main extends javax.swing.JFrame {
 
         addController = new AddController(this);
         addDialog = new Add(this, true, addController);
+        
         removeController = new RemoveController(this);
+        
+        editController = new EditController(this);
+        editDialog = new Edit(this, true, editController);
     }
 
     public void configureTable() {
@@ -39,6 +46,10 @@ public class Main extends javax.swing.JFrame {
 
     public JTable getjTable() {
         return jTable;
+    }
+
+    public Edit getEditDialog() {
+        return editDialog;
     }
 
     @SuppressWarnings("unchecked")
@@ -89,6 +100,11 @@ public class Main extends javax.swing.JFrame {
 
         edit.setText("Editar");
         edit.setPreferredSize(new java.awt.Dimension(90, 30));
+        edit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editActionPerformed(evt);
+            }
+        });
         botoes.add(edit);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -123,6 +139,11 @@ public class Main extends javax.swing.JFrame {
     private void removeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeActionPerformed
         removeController.remove();
     }//GEN-LAST:event_removeActionPerformed
+
+    private void editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editActionPerformed
+        editDialog.setLocationRelativeTo(this);
+        editDialog.getEditController().fillFieldsFromSelectedRow(editDialog);
+    }//GEN-LAST:event_editActionPerformed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */

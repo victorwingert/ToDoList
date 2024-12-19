@@ -10,7 +10,7 @@ public class AddController {
         this.main = main;
     }
 
-    public void addNewItem(String id, String nome, String categoria, String prioridade, String status) {
+    public void add(String id, String nome, String categoria, String prioridade, String status) {
         String[] newRow = {id, nome, categoria, prioridade, status};
         CSVFileController.addCSV("data.csv", newRow);
         main.updateTable();
